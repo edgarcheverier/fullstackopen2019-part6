@@ -1,23 +1,18 @@
 import React from 'react';
+import { voteActionCreator, addActionCreator } from './reducers/anecdoteReducer';
 
 const App = (props) => {
   const anecdotes = props.store.getState()
 
   const vote = (id) => {
-    props.store.dispatch({
-      type: 'VOTE',
-      data: { id }
-    })
+    props.store.dispatch(voteActionCreator(id))
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const content = e.target.content.value;
     e.target.content.value = '';
-    props.store.dispatch({
-      type: 'ADD',
-      data: { content }
-    })
+    props.store.dispatch(addActionCreator(content))
   }
 
   return (
