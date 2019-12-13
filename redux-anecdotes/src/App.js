@@ -10,6 +10,16 @@ const App = (props) => {
     })
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const content = e.target.content.value;
+    e.target.content.value = '';
+    props.store.dispatch({
+      type: 'ADD',
+      data: { content }
+    })
+  }
+
   return (
     <div>
       <h2>Anecdotes</h2>
@@ -25,9 +35,9 @@ const App = (props) => {
         </div>
       )}
       <h2>create new</h2>
-      <form>
-        <div><input /></div>
-        <button>create</button>
+      <form onSubmit={handleSubmit}>
+        <input type='text' name='content' />
+        <button type='submit'>create</button>
       </form>
     </div>
   )
