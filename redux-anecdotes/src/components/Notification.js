@@ -6,11 +6,14 @@ const Notification = (props) => {
     padding: 10,
     borderWidth: 1
   }
-  return (
-    <div style={style}>
-      {props.store.getState().message}
-    </div>
-  )
+  if (props.store.getState().notification.show) {
+    return (
+      <div style={style}>
+        {props.store.getState().notification.message}
+      </div>
+    )
+  }
+  return <></>
 }
 
 export default Notification
