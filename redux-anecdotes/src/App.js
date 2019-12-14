@@ -1,18 +1,12 @@
 import React from 'react';
-import { voteActionCreator, addActionCreator } from './reducers/anecdoteReducer';
+import { voteActionCreator } from './reducers/anecdoteReducer';
+import AnecdoteForm from './components/AnecdoteForm';
 
 const App = (props) => {
   const anecdotes = props.store.getState()
 
   const vote = (id) => {
     props.store.dispatch(voteActionCreator(id))
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const content = e.target.content.value;
-    e.target.content.value = '';
-    props.store.dispatch(addActionCreator(content))
   }
 
   return (
@@ -30,10 +24,7 @@ const App = (props) => {
         </div>
       )}
       <h2>create new</h2>
-      <form onSubmit={handleSubmit}>
-        <input type='text' name='content' />
-        <button type='submit'>create</button>
-      </form>
+      <AnecdoteForm store={props.store} />
     </div>
   )
 }
