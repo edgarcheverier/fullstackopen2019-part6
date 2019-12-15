@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { addActionCreator } from '../reducers/anecdoteReducer';
 import { messageActionCreator, showMessageActionCreator } from '../reducers/notificationReducer';
 
@@ -7,11 +8,12 @@ const AnecdoteForm = (props) => {
     e.preventDefault();
     const content = e.target.content.value;
     e.target.content.value = '';
-    props.store.dispatch(addActionCreator(content));
+
+    props.addActionCreator(content);
     const message = `you created ${content}`;
-    props.store.dispatch(showMessageActionCreator(true));
-    props.store.dispatch(messageActionCreator(message));
-    setTimeout(() => props.store.dispatch(showMessageActionCreator(false)), 5000);
+    props.messageActionCreator(message);
+    props.showMessageActionCreator(true);
+    setTimeout(() => props.showMessageActionCreator(false), 5000);
   }
 
   return (
@@ -25,4 +27,12 @@ const AnecdoteForm = (props) => {
   )
 }
 
-export default AnecdoteForm;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addActionCreator: (value) => dispatch(addActionCreator(value)),
+    messageActionCreator: (value) => dispatch(messageActionCreator(value)),
+    showMessageActionCreator: (value) => dispatch(showMessageActionCreator(value))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(AnecdoteForm);

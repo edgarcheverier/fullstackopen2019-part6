@@ -1,19 +1,18 @@
 import React from 'react';
-// import { voteActionCreator } from '../reducers/anecdoteReducer';
-// import { messageActionCreator, showMessageActionCreator } from '../reducers/notificationReducer';
+import { voteActionCreator } from '../reducers/anecdoteReducer';
+import { messageActionCreator, showMessageActionCreator } from '../reducers/notificationReducer';
 import { connect } from 'react-redux';
 
 const AnecdoteList = (props) => {
   const anecdotes = props.anecdotes
 
   const vote = (id, content) => {
-    console.log('id :', id)
-    console.log('content: ', content)
-    // const message = `you voted ${content}`;
-    // props.store.dispatch(voteActionCreator(id));
-    // props.store.dispatch(showMessageActionCreator(true));
-    // props.store.dispatch(messageActionCreator(message));
-    // setTimeout(() => props.store.dispatch(showMessageActionCreator(false)), 5000);
+    const message = `you voted ${content}`;
+    props.voteActionCreator(id);
+    props.messageActionCreator(message);
+    props.showMessageActionCreator(true);
+
+    setTimeout(() => props.showMessageActionCreator(false), 5000);
   }
 
   return (
@@ -34,10 +33,18 @@ const AnecdoteList = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  console.log('state: ', state)
+  console.log('state: ', state);
   return {
     anecdotes: state.anecdotes
   }
-}
+};
 
-export default connect(mapStateToProps, null)(AnecdoteList);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    voteActionCreator: (value) => dispatch(voteActionCreator(value)),
+    messageActionCreator: (value) => dispatch(messageActionCreator(value)),
+    showMessageActionCreator: (value) => dispatch(showMessageActionCreator(value))
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AnecdoteList);
