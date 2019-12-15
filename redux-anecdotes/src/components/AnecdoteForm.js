@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { addActionCreator } from '../reducers/anecdoteReducer';
 import { messageActionCreator, showMessageActionCreator } from '../reducers/notificationReducer';
-import anecdotesService from '../services/anecdotes';
 
 const AnecdoteForm = (props) => {
 
@@ -10,8 +9,7 @@ const AnecdoteForm = (props) => {
     e.preventDefault();
     const content = e.target.content.value;
     e.target.content.value = '';
-    const newAnecdote = await anecdotesService.createNew(content);
-    props.addActionCreator(newAnecdote);
+    props.addActionCreator(content);
     const message = `you created ${content}`;
     props.messageActionCreator(message);
     props.showMessageActionCreator(true);
