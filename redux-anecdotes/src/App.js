@@ -4,14 +4,11 @@ import { connect } from 'react-redux';
 import AnecdoteForm from './components/AnecdoteForm';
 import AnecdoteList from './components/AnecdoteList';
 import Notification from './components/Notification';
-import anecdotesService from './services/anecdotes';
 import { initAnecdotesActionCreator } from './reducers/anecdoteReducer';
 
 const App = (props) => {
   useEffect(() => {
-    anecdotesService.getAll().then(data => {
-      props.initAnecdotesActionCreator(data)
-    })
+    props.initAnecdotesActionCreator();
   }, []);
 
   return (
@@ -26,7 +23,7 @@ const App = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    initAnecdotesActionCreator: (value) => dispatch(initAnecdotesActionCreator(value))
+    initAnecdotesActionCreator: () => dispatch(initAnecdotesActionCreator())
   }
 }
 
