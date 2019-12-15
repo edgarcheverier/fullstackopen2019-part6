@@ -1,18 +1,14 @@
 import React from 'react';
 import { voteActionCreator } from '../reducers/anecdoteReducer';
-import { messageActionCreator, showMessageActionCreator } from '../reducers/notificationReducer';
+import { setNotification } from '../reducers/notificationReducer';
 import { connect } from 'react-redux';
 
 const AnecdoteList = (props) => {
   const anecdotes = props.anecdotes
 
   const vote = (anecdote) => {
-    const message = `you voted ${anecdote.content}`;
     props.voteActionCreator(anecdote.id, {...anecdote, votes: anecdote.votes + 1});
-    props.messageActionCreator(message);
-    props.showMessageActionCreator(true);
-
-    setTimeout(() => props.showMessageActionCreator(false), 5000);
+    props.setNotification(`you voted ${anecdote.content}`, 5);
   }
   if (anecdotes.length) {
     return (
@@ -43,8 +39,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     voteActionCreator: (id, value) => dispatch(voteActionCreator(id, value)),
-    messageActionCreator: (value) => dispatch(messageActionCreator(value)),
-    showMessageActionCreator: (value) => dispatch(showMessageActionCreator(value))
+    setNotification: (message, time) => dispatch(setNotification(message, time))
   }
 };
 
