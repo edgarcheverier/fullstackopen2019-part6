@@ -5,9 +5,7 @@ const anecdoteReducer = (state = [], action) => {
       return action.data;
     case 'VOTE':
       const id = action.data.id;
-      const anecdote = state.find(ele => ele.id === id);
-      const anecdoteChanged = {...anecdote, votes: anecdote.votes + 1}
-      return state.map(ele => ele.id !== id ? ele : anecdoteChanged);
+      return state.map(ele => ele.id !== id ? ele : action.data);
     case 'ADD':
       return [...state, action.data];
     default:
@@ -25,10 +23,13 @@ export const initAnecdotesActionCreator = () => {
   }
 }
 
-export const voteActionCreator = (id) => {
-  return {
-    type: 'VOTE',
-    data: { id }
+export const voteActionCreator = (id, content) => {
+  return async (dispatch) => {
+    const data = await anecdotesService.changeOne(id, content);
+    dispatch({
+      type: 'VOTE',
+      data
+    })
   }
 }
 

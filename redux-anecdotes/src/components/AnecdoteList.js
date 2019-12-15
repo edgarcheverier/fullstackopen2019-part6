@@ -6,9 +6,9 @@ import { connect } from 'react-redux';
 const AnecdoteList = (props) => {
   const anecdotes = props.anecdotes
 
-  const vote = (id, content) => {
-    const message = `you voted ${content}`;
-    props.voteActionCreator(id);
+  const vote = (anecdote) => {
+    const message = `you voted ${anecdote.content}`;
+    props.voteActionCreator(anecdote.id, {...anecdote, votes: anecdote.votes + 1});
     props.messageActionCreator(message);
     props.showMessageActionCreator(true);
 
@@ -24,7 +24,7 @@ const AnecdoteList = (props) => {
             </div>
             <div>
               has {anecdote.votes}
-              <button onClick={() => vote(anecdote.id, anecdote.content)}>vote</button>
+              <button onClick={() => vote(anecdote)}>vote</button>
             </div>
           </div>
         )}
@@ -42,7 +42,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    voteActionCreator: (value) => dispatch(voteActionCreator(value)),
+    voteActionCreator: (id, value) => dispatch(voteActionCreator(id, value)),
     messageActionCreator: (value) => dispatch(messageActionCreator(value)),
     showMessageActionCreator: (value) => dispatch(showMessageActionCreator(value))
   }
