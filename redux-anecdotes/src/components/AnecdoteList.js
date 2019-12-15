@@ -14,26 +14,27 @@ const AnecdoteList = (props) => {
 
     setTimeout(() => props.showMessageActionCreator(false), 5000);
   }
-
-  return (
-    <>
-      {anecdotes.map(anecdote =>
-        <div key={anecdote.id}>
-          <div>
-            {anecdote.content}
+  if (anecdotes.length) {
+    return (
+      <>
+        {anecdotes.map(anecdote =>
+          <div key={anecdote.id}>
+            <div>
+              {anecdote.content}
+            </div>
+            <div>
+              has {anecdote.votes}
+              <button onClick={() => vote(anecdote.id, anecdote.content)}>vote</button>
+            </div>
           </div>
-          <div>
-            has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id, anecdote.content)}>vote</button>
-          </div>
-        </div>
-      )}
-    </>
-  )
+        )}
+      </>
+    )
+  }
+  return <></>
 }
 
 const mapStateToProps = (state) => {
-  console.log('state: ', state);
   return {
     anecdotes: state.anecdotes
   }
